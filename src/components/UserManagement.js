@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import './management.css'
+import "./management.css";
 
 const API_URL = "https://jsonplaceholder.typicode.com/users";
 
@@ -25,14 +25,14 @@ const UserManagement = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
-      setUsers(users.filter(user => user.id !== id));
+      setUsers(users.filter(user => user.name !== id));
     } catch (error) {
       console.error("Error deleting user", error);
     }
   };
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.value]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -57,20 +57,20 @@ const UserManagement = () => {
   };
 
   return (
-    <div>
+    <div className="user-management">
       <h1>User Management Dashboard</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="user-form" onSubmit={handleSubmit}>
         <input name="name" placeholder="Name" onChange={handleInputChange} value={formData.name} required />
         <input name="email" placeholder="Email" onChange={handleInputChange} value={formData.email} required />
         <input name="phone" placeholder="Phone" onChange={handleInputChange} value={formData.phone} required />
         <button type="submit">{editing ? "Update" : "Add"} User</button>
       </form>
-      <ul>
+      <ul className="user-list">
         {users.map(user => (
-          <li key={user.id}>
+          <li className="user-item" key={user.id}>
             {user.name} - {user.email} - {user.phone}
-            <button onClick={() => setFormData(user) || setEditing(true)}>Edit</button>
-            <button onClick={() => handleDelete(user.id)}>Delete</button>
+            <button className="edit-btn" onClick={() => setFormData(user) || setEditing(true)}>Edit</button>
+            <button className="delete-btn" onClick={() => handleDelete(user.id)}>Delete</button>
           </li>
         ))}
       </ul>
